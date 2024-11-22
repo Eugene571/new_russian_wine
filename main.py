@@ -1,8 +1,13 @@
+import argparse
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
 import pandas as pd
 from collections import defaultdict
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def load_wines(file_path):
@@ -36,10 +41,20 @@ def render_template(template_name, context):
 
 
 if __name__ == "__main__":
-    grouped_wines = load_wines('wine.xlsx')
+    parser = argparse.ArgumentParser(description="Запуск веб-сервера и отображение данных о вине.")
+
+    parser.add_argument('--data', type=str, default=os.getenv('WINE_DATA_PATH', 'wine.xlsx'),
+                        help="Путь к файлу с данными о вине (по умолчанию 'wine.xlsx').")
+
+    parser.add_argument('--template', type=str, default=os.getenv('TEMPLATE_PATH', 'template.html'),
+                        help="Путь к файлу шаблона (по умолчанию 'template.html').")
+
+    args = parser.parse_args()
+
+    grouped_wines = load_wines(args.data)
     total_years = pluralize_years(datetime.now().year - 1920)
 
-    rendered_page = render_template('template.html', {
+    rendered_page = render_template(args.template, {
         'grouped_wines': grouped_wines,
         'total_years': total_years
     })
@@ -49,4 +64,3 @@ if __name__ == "__main__":
 
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     server.serve_forever()
-
