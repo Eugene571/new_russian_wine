@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+START_YEAR = 1920
+
 
 def load_wines(file_path):
     wines_xlsx = pd.read_excel(
@@ -52,7 +54,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     grouped_wines = load_wines(args.data)
-    total_years = pluralize_years(datetime.now().year - 1920)
+    total_years = pluralize_years(datetime.now().year - START_YEAR)
 
     rendered_page = render_template(args.template, {
         'grouped_wines': grouped_wines,
