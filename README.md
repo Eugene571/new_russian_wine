@@ -50,11 +50,6 @@ python main.py --data path/to/your/wine.xlsx --template path/to/your/template.ht
 WINE_DATA_PATH=path/to/your/wine.xlsx
 TEMPLATE_PATH=path/to/your/template.html
 ```
-Не забудьте установить библиотеку `python-dotenv`, если вы планируете использовать этот метод:
-
-```bash
-pip install python-dotenv
-```
 
 ## Образец входных данных
 
