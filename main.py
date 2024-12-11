@@ -7,7 +7,6 @@ from collections import defaultdict
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
 
 START_YEAR = 1920
 
@@ -43,6 +42,8 @@ def render_template(template_name, context):
 
 
 if __name__ == "__main__":
+    load_dotenv()
+
     parser = argparse.ArgumentParser(description="Запуск веб-сервера и отображение данных о вине.")
 
     parser.add_argument('--data', type=str, default=os.getenv('WINE_DATA_PATH', 'wine.xlsx'),
